@@ -21,7 +21,6 @@
             touch-action: none;
         }
 
-        /* Music Button */
         .music-control {
             position: fixed; top: 20px; right: 20px; z-index: 100;
             background: rgba(255, 215, 0, 0.2); border: 1px solid #ffd700;
@@ -29,7 +28,6 @@
             width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;
         }
 
-        /* Floating Hearts/Stars */
         .heart-float {
             position: absolute; color: rgba(255, 105, 180, 0.4);
             font-size: 20px; pointer-events: none; z-index: 1;
@@ -42,7 +40,6 @@
 
         .container { text-align: center; z-index: 10; padding: 40px 20px; width: 100%; max-width: 600px; }
 
-        /* Photo Frame */
         .photo-frame {
             width: 180px; height: 180px; margin: 0 auto 20px;
             border-radius: 50%; padding: 8px;
@@ -56,7 +53,7 @@
         h1 { font-family: 'Dancing Script', cursive; font-size: 2.8rem; margin-bottom: 10px; }
         #typewriter { font-size: 1.1rem; min-height: 3rem; color: #ffcccc; margin-bottom: 20px; font-style: italic; }
 
-        .gift-container { cursor: pointer; transition: transform 0.3s; margin-bottom: 20px; }
+        #gift-section { cursor: pointer; transition: transform 0.3s; margin-bottom: 20px; }
         .gift-box { font-size: 60px; filter: drop-shadow(0 0 10px #ffd700); }
 
         #reason-card {
@@ -70,6 +67,8 @@
             position: fixed; width: 6px; height: 6px; background: #ffd700;
             border-radius: 50%; pointer-events: none; z-index: 999;
         }
+
+        #final-msg { font-family: 'Dancing Script', cursive; font-size: 2rem; color: #ffd700; margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
@@ -78,78 +77,66 @@
         <i id="music-icon" class="fas fa-music"></i>
     </div>
     <audio id="bg-music" loop>
-        <source src="https://github.com/ah2332223-arch/Noor-birthday/raw/refs/heads/main/Doroon%20mp3.mp3" type="audio/mpeg">
+        <source src="https://github.com/ah2332223-arch/Noor-birthday/raw/refs/heads/main/Doroon%20mp3.mp3" type="audio/mpeg" type="audio/mpeg">
     </audio>
 
     <div id="hearts-bg"></div>
 
     <div class="container">
         <div class="photo-frame">
-            <img src="https://github.com/ah2332223-arch/Noor-birthday/commit/cf8e791a1a26747438c0a76466a909d4613264b4#diff-f10c520de0d8e2e9ef716fca5f1ecb4f2d23a62f792f5eb8192b4c04232fed07" alt="Noor Fatima">
+            <img src="https://github.com/ah2332223-arch/Noor-birthday/blob/main/IMG-20251223-WA0222.jpg?raw=true" alt="Noor Fatima">
         </div>
 
-        <h1 id="title">For Noor Fatima ✨</h1>
+        <h1 id="title">For NOORAYYY ✨</h1>
         <div id="typewriter"></div>
 
-        <div class="gift-container" onclick="openGift()">
-            <div class="gift-box" id="box">🎁</div>
+        <div id="gift-section" onclick="openGift()">
+            <div class="gift-box">🎁</div>
             <p style="font-size: 0.8rem; color: #ffaaaa;">Tap to open your surprise!</p>
         </div>
 
         <div id="reason-card">
             <h3 id="reason-text">You're the most special person for me NOORAYYY! 🌟</h3>
-            <button onclick="nextReason()" style="background:none; border:1px solid #ffd700; color:#ffd700; padding:8px 20px; border-radius:20px; margin-top:15px; cursor:pointer;">Another Reason ❤️</button>
+            <button id="next-btn" onclick="nextReason()" style="background:none; border:1px solid #ffd700; color:#ffd700; padding:8px 20px; border-radius:20px; margin-top:15px; cursor:pointer;">Another Reason ❤️</button>
+            <div id="final-msg">I LOVE YOU NOOR ❤️</div>
         </div>
     </div>
 
     <script>
-        // Music Toggle
         const music = document.getElementById("bg-music");
         const icon = document.getElementById("music-icon");
         function toggleMusic() {
-            if (music.paused) {
-                music.play();
-                icon.classList.remove("fa-music");
-                icon.classList.add("fa-pause");
-            } else {
-                music.pause();
-                icon.classList.remove("fa-pause");
-                icon.classList.add("fa-music");
-            }
+            if (music.paused) { music.play(); icon.className = "fas fa-pause"; }
+            else { music.pause(); icon.className = "fas fa-music"; }
         }
 
-        // Typewriter
         const text = "A small surprise for someone who has feelings for me, but she keeps them to herself... 🌸";
         let i = 0;
         function typeWriter() {
             if (i < text.length) {
                 document.getElementById("typewriter").innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 50);
+                i++; setTimeout(typeWriter, 50);
             }
         }
         window.onload = typeWriter;
 
-        // Floating Items
         setInterval(() => {
             const heart = document.createElement('div');
-            heart.classList.add('heart-float');
-            heart.innerHTML = ["❤", "💖", "🌸", "✨"][Math.floor(Math.random() * 4)];
+            heart.className = 'heart-float';
+            heart.innerHTML = ["❤", "💖", "💓", "✨"][Math.floor(Math.random() * 4)];
             heart.style.left = Math.random() * 100 + "vw";
             heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
             document.getElementById('hearts-bg').appendChild(heart);
             setTimeout(() => heart.remove(), 6000);
         }, 450);
 
-        // Gift & Confetti
         function openGift() {
-            document.getElementById('box').innerHTML = "💝";
+            document.getElementById('gift-section').style.display = "none";
             document.getElementById('title').innerHTML = "Surprise! 🎉";
             document.getElementById('reason-card').style.display = "block";
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#800000', '#ffd700', '#ff69b4'] });
         }
 
-        // Reasons
         const reasons = [
             "Seeing you smile is my biggest wish. 😊",
             "The way you care about me everytime. ❤️",
@@ -159,14 +146,18 @@
         ];
         let rIdx = 0;
         function nextReason() {
-            rIdx = (rIdx + 1) % reasons.length;
-            document.getElementById('reason-text').innerHTML = reasons[rIdx];
+            rIdx++;
+            if (rIdx < reasons.length) {
+                document.getElementById('reason-text').innerHTML = reasons[rIdx];
+            } else {
+                document.getElementById('next-btn').style.display = "none";
+                document.getElementById('final-msg').style.display = "block";
+            }
         }
 
-        // Cursor Trail
         window.addEventListener('mousemove', (e) => {
             const p = document.createElement('div');
-            p.classList.add('cursor-particle');
+            p.className = 'cursor-particle';
             p.style.left = e.clientX + 'px';
             p.style.top = e.clientY + 'px';
             document.body.appendChild(p);
